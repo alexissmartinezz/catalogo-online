@@ -18,46 +18,62 @@
 
   <main>
 
-    <section>
-
-      <h2 id="nombreProducto">Producto</h2>
-
-      <p id="precioProducto"></p>
-
-      <br>
-
-      <a id="whatsappBtn" class="btn" target="_blank">
-        🟢 Pedir por WhatsApp
-      </a>
-
-    </section>
+    <div id="listaProductos"></div>
 
   </main>
 
   <script>
 
-    const datos = JSON.parse(localStorage.getItem("catalogo"));
+    const datos = JSON.parse(
+      localStorage.getItem("catalogo")
+    );
 
     if (datos) {
 
-      document.getElementById("nombreNegocio").textContent = datos.negocio;
+      document.getElementById("nombreNegocio").textContent =
+        datos.negocio;
 
-      document.getElementById("nombreProducto").textContent = datos.producto;
+      const lista =
+        document.getElementById("listaProductos");
 
-      document.getElementById("precioProducto").textContent =
-        "$" + Number(datos.precio).toLocaleString("es-AR");
 
-      const mensaje =
-        "Hola, quiero comprar " +
-        datos.producto +
-        " de $" +
-        Number(datos.precio).toLocaleString("es-AR");
+      datos.productos.forEach(function(producto) {
 
-      document.getElementById("whatsappBtn").href =
-        "https://wa.me/" +
-        datos.whatsapp +
-        "?text=" +
-        encodeURIComponent(mensaje);
+        const tarjeta =
+          document.createElement("section");
+
+        tarjeta.innerHTML = `
+
+          <h2>${producto.nombre}</h2>
+
+          <p class="precio">
+            $${Number(producto.precio).toLocaleString("es-AR")}
+          </p>
+
+          <p>
+            ${producto.descripcion || ""}
+          </p>
+
+          <br>
+
+          <a
+            class="btn"
+            target="_blank"
+            href="https://wa.me/${datos.whatsapp}?text=${encodeURIComponent(
+              "Hola, quiero comprar " +
+              producto.nombre +
+              " de $" +
+              Number(producto.precio).toLocaleString("es-AR")
+            )}"
+          >
+            🟢 Pedir por WhatsApp
+          </a>
+
+        `;
+
+        lista.appendChild(tarjeta);
+
+      });
 
     }
 
