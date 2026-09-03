@@ -44,7 +44,26 @@ function agregarProducto() {
 }
 
 
-formulario.addEventListener("submit", function(event) {
+function convertirImagen(file) {
+  return new Promise((resolve) => {
+
+    if (!file) {
+      resolve("");
+      return;
+    }
+
+    const lector = new FileReader();
+
+    lector.onload = function() {
+      resolve(lector.result);
+    };
+
+    lector.readAsDataURL(file);
+  });
+}
+
+
+formulario.addEventListener("submit", async function(event) {
 
   event.preventDefault();
 
@@ -59,7 +78,14 @@ formulario.addEventListener("submit", function(event) {
 
   const listaProductos = [];
 
-  productos.forEach(function(producto) {
+
+  for (const producto of productos) {
+
+    const archivo =
+      producto.querySelector(".foto").files[0];
+
+    const foto =
+      await convertirImagen(archivo);
 
     const nombre =
       producto.querySelector(".nombreProducto").value;
@@ -70,13 +96,20 @@ formulario.addEventListener("submit", function(event) {
     const descripcion =
       producto.querySelector(".descripcionProducto").value;
 
+
     listaProductos.push({
+
       nombre: nombre,
+
       precio: precio,
-      descripcion: descripcion
+
+      descripcion: descripcion,
+
+      foto: foto
+
     });
 
-  });
+  }
 
 
   const catalogo = {
