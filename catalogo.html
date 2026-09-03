@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Mi catálogo</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <header>
+    <h1 id="nombreNegocio">Mi negocio</h1>
+    <p>Catálogo de productos</p>
+  </header>
+
+  <main>
+
+    <section>
+
+      <h2 id="nombreProducto">Producto</h2>
+
+      <p id="precioProducto"></p>
+
+      <br>
+
+      <a id="whatsappBtn" class="btn" target="_blank">
+        🟢 Pedir por WhatsApp
+      </a>
+
+    </section>
+
+  </main>
+
+  <script>
+
+    const datos = JSON.parse(localStorage.getItem("catalogo"));
+
+    if (datos) {
+
+      document.getElementById("nombreNegocio").textContent = datos.negocio;
+
+      document.getElementById("nombreProducto").textContent = datos.producto;
+
+      document.getElementById("precioProducto").textContent =
+        "$" + Number(datos.precio).toLocaleString("es-AR");
+
+      const mensaje =
+        "Hola, quiero comprar " +
+        datos.producto +
+        " de $" +
+        Number(datos.precio).toLocaleString("es-AR");
+
+      document.getElementById("whatsappBtn").href =
+        "https://wa.me/" +
+        datos.whatsapp +
+        "?text=" +
+        encodeURIComponent(mensaje);
+
+    }
+
+  </script>
+
+</body>
+</html>
