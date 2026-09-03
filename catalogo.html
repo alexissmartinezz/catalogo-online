@@ -44,6 +44,16 @@
 
         tarjeta.innerHTML = `
 
+          ${
+            producto.foto
+              ? `<img
+                  src="${producto.foto}"
+                  class="foto-producto"
+                  alt="${producto.nombre}"
+                >`
+              : ""
+          }
+
           <h2>${producto.nombre}</h2>
 
           <p class="precio">
